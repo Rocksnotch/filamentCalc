@@ -27,7 +27,10 @@ void configCheck() {
         std::cout << "Config found, loading config file." << std::endl;
     } else {
         std::cout << "Config not found, creating config file..." << std::endl;
-        cFile << "";
+        std::fstream wFile;
+        wFile.open("config.dat",std::fstream::out);
+        wFile << "";
+        cFile.close();
         std::cout << "Done!\nPress 'Enter' to continue";
         std::cin.get();
         header();
