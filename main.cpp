@@ -31,6 +31,7 @@ void configCheck() {
         wFile.open("config.dat",std::fstream::out);
         wFile << "";
         cFile.close();
+        wFile.close();
         std::cout << "Done!\nPress 'Enter' to continue";
         std::cin.get();
         header();
