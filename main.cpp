@@ -2,6 +2,16 @@
 #include <stdlib.h>
 #include <fstream>
 
+// Unloaded variables
+std::string spoolBrand = "";
+std::string spoolType = "";
+double spoolCost = 0.0;
+int spoolWeight = 0;
+
+// Loaded variables
+const double pla = 1.24;
+const double abs = 1.04;
+
 
 void clear_screen()
 {
@@ -36,8 +46,14 @@ void configCheck() {
         std::cin.get();
         header();
     }
-    
 }
+
+struct filament {
+        
+        std::string brand;
+        double cost;    
+
+    };
 
 int main() {
     header();
