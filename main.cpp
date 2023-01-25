@@ -41,17 +41,20 @@ struct filament {
 // Vector Setup
 std::vector<filament> fil;
 
+
 void configSave() {
     header();
     std::cout << "Saving config..." << std::endl;
     std::ofstream wFile;
-    wFile.open("config.dat");
+    wFile.open("config.dat", std::ofstream::trunc);
 
-    for (auto& a : fil) {
-        wFile << a.brand << std::endl;
-        wFile << a.type << std::endl;
-        wFile << a.cost << std::endl;
-        wFile << a.weight << std::endl;
+    int vecLength = fil.size();
+
+    for (int i = 0; i < vecLength; i++) {
+        wFile << fil[i].brand << std::endl;
+        wFile << fil[i].type << std::endl;
+        wFile << fil[i].cost << std::endl;
+        wFile << fil[i].weight << std::endl;
     }
 
     wFile.close();
@@ -65,8 +68,9 @@ void configLoad() {
     std::cout << "Loading config..." << std::endl;
     std::ifstream rFile;
     rFile.open("config.dat");
+    int tempCount = 0;
 
-    while (!rFile.eof()) {
+    while (rFile.good()) {
         std::getline(rFile, hold.brand);
         std::getline(rFile, hold.type);
         rFile >> hold.cost;
@@ -122,11 +126,18 @@ void addFil() {
 }
 
 int main() {
+    //housekeeping
     header();
-    configCheck();
-
+    fil.clear();
+    configLoad();
+    std::cout << "Pre-size: " << fil.size() << std::endl;
     addFil();
-    configSave();
+    std::cout << "Post-size: " << fil.size() << std::endl;
+
+    std::cout << fil[0].brand << std::endl;
+    std::cout << fil[0].type << std::endl;
+    std::cout << fil[0].cost << std::endl;
+    std::cout << fil[0].weight << std::endl;
 
     return 0;
 }
