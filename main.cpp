@@ -26,27 +26,7 @@ void clear_screen()
 
 void header() {
     clear_screen();
-    std::cout << "==========CSO Printer Calculator V0.1==========" << std::endl << std::endl;
-}
-
-void configCheck() {
-    std::fstream cFile;
-    cFile.open("config.dat");
-
-    if (cFile)
-    {
-        std::cout << "Config found, loading config file." << std::endl;
-    } else {
-        std::cout << "Config not found, creating config file..." << std::endl;
-        std::fstream wFile;
-        wFile.open("config.dat",std::fstream::out);
-        wFile << "";
-        cFile.close();
-        wFile.close();
-        std::cout << "Done!\nPress 'Enter' to continue";
-        std::cin.get();
-        header();
-    }
+    std::cout << "==========CSO Printer Calculator V0.5==========" << std::endl << std::endl;
 }
 
 struct filament {
@@ -66,9 +46,6 @@ void configSave() {
     std::cout << "Saving config..." << std::endl;
     std::ofstream wFile;
     wFile.open("config.dat");
-
-    int vecSize = 0;
-    vecSize = fil.size();
 
     for (auto& a : fil) {
         wFile << a.brand << std::endl;
@@ -104,25 +81,52 @@ void configLoad() {
     header();
 }
 
+void configCheck() {
+    std::fstream cFile;
+    cFile.open("config.dat");
+
+    if (cFile)
+    {
+        std::cout << "Config found, loading config file." << std::endl;
+        configLoad();
+    } else {
+        std::cout << "Config not found, creating config file..." << std::endl;
+        std::fstream wFile;
+        wFile.open("config.dat",std::fstream::out);
+        wFile << "";
+        cFile.close();
+        wFile.close();
+        std::cout << "Done!\nPress 'Enter' to continue";
+        std::cin.get();
+        header();
+    }
+}
+
+void addFil() {
+    header();
+    std::cout << "Enter company brand: ";
+    std::cin >> spoolBrand;
+    std::cout << "Enter spool type (pla, abs, etc): ";
+    std::cin >> spoolType;
+    std::cout << "Enter spool cost (dollars w/o symbol): ";
+    std::cin >> spoolCost;
+    std::cout << "Enter spool weight (kg): ";
+    std::cin >> spoolWeight;
+
+    hold.brand = spoolBrand;
+    hold.type = spoolType;
+    hold.cost = spoolCost;
+    hold.weight = spoolWeight;
+
+    fil.push_back(hold);
+}
+
 int main() {
     header();
     configCheck();
-/*
-    struct filament test;
-    test.brand = "testBrand";
-    test.type = "pla";
-    test.cost = 29.99;
-    test.weight = 15;
 
-    fil.push_back(test);
-*/
-
-    configLoad();
-
-    std::cout << fil[0].brand << std::endl;
-    std::cout << fil[0].type << std::endl;
-    std::cout << fil[0].cost << std::endl;
-    std::cout << fil[0].weight << std::endl;
+    addFil();
+    configSave();
 
     return 0;
 }
