@@ -48,16 +48,16 @@ void configSave() {
     std::ofstream wFile;
     wFile.open("config.dat");
 
-    int vecLength = fil.size();
+    wFile << fil.size() << std::endl;
 
-    for (int i = 0; i < vecLength; i++) {
+    for (int i = 0; i < fil.size(); i++) {
         wFile << fil[i].brand << std::endl;
         wFile << fil[i].type << std::endl;
         wFile << fil[i].cost << std:: endl;
         wFile << fil[i].weight << std::endl;
     }
     wFile.close();
-    std::cout << "Config saved!\nPress 'Enter' to continue" << std::endl;
+    std::cout << "Config saved!\nPress 'Enter' to continue";
     std::cin.get();
     header();
 }
@@ -71,18 +71,19 @@ void configLoad() {
     rFile >> vecSize;
 
 
-    while (rFile.good()) {
-        std::getline(rFile, hold.brand);
-        std::getline(rFile, hold.type);
+    while (vecSize != 0) {
+        rFile >> hold.brand;
+        rFile >> hold.type;
         rFile >> hold.cost;
         rFile >> hold.weight;
 
-        fil.push_back(hold);        
-    }
-
+        fil.push_back(hold);
+        vecSize--;
+        }
     rFile.close();
-    std::cout << "Config loaded!\nPress 'Enter' to continue" << std::endl;
+    std::cout << "Config loaded!\nPress 'Enter' to continue";
     std::cin.get();
+    header();
 }
 
 void configCheck() {
@@ -97,6 +98,7 @@ void configCheck() {
         std::cout << "Config not found, creating config file..." << std::endl;
         std::fstream wFile;
         wFile.open("config.dat",std::fstream::out);
+        wFile << "";
         cFile.close();
         wFile.close();
         std::cout << "Done!\nPress 'Enter' to continue";
@@ -128,12 +130,7 @@ int main() {
     header();
     configCheck();
     addFil();
-    std::cout << "Post-size: " << fil.size() << std::endl;
-
-    std::cout << fil[0].brand << std::endl;
-    std::cout << fil[0].type << std::endl;
-    std::cout << fil[0].cost << std::endl;
-    std::cout << fil[0].weight << std::endl;
+    configSave();
 
     return 0;
 }
