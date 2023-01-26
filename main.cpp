@@ -9,9 +9,12 @@ std::string spoolBrand = "";
 std::string spoolType = "";
 double spoolCost = 0.0;
 double spoolWeight = 0;
+std::string temp;
 
-// Loaded variables
+// Loaded variables (material density)
 const double pla = 1.24;
+const double abS = 1.04;
+const double petg = 1.27;
 
 
 void clear_screen()
@@ -57,9 +60,6 @@ void configSave() {
         wFile << fil[i].weight << std::endl;
     }
     wFile.close();
-    std::cout << "Config saved!\nPress 'Enter' to continue";
-    std::cin.get();
-    header();
 }
 
 void configLoad() {
@@ -83,7 +83,6 @@ void configLoad() {
     rFile.close();
     std::cout << "Config loaded!\nPress 'Enter' to continue";
     std::cin.get();
-    header();
 }
 
 void configCheck() {
@@ -103,7 +102,6 @@ void configCheck() {
         wFile.close();
         std::cout << "Done!\nPress 'Enter' to continue";
         std::cin.get();
-        header();
     }
 }
 
@@ -124,13 +122,45 @@ void addFil() {
     hold.weight = spoolWeight;
 
     fil.push_back(hold);
+    configSave();
 }
 
 int main() {
+    //Housekeeping (variables, etc)
+    int choice = 999;
+
+    //Start of program
     header();
     configCheck();
-    addFil();
-    configSave();
+    while (choice != 0) {
+    header();
+    std::cout << "---MAIN MENU---" << std::endl;
+    std::cout << "1) View filaments on file" << std::endl;
+    std::cout << "2) Add filament to file" << std::endl;
+    std::cout << "3) Price calculator" << std::endl;
+    std::cout << "0) Exit Program" << std::endl << std::endl;
+    std::cout << "Enter Choice Number: ";
+    std::cin >> choice;
+
+    switch (choice) {
+        case 1:
+        
+            break;
+        case 2:
+        addFil();
+            break;
+        case 3:
+
+            break;
+        case 0:
+            return 0;
+            break;
+        default:
+            std::cout << "Choice not found, try again!\nPress 'Enter' to continue";
+            std::cin.get();
+    }
+
+    }
 
     return 0;
 }
