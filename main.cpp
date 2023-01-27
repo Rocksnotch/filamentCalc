@@ -165,6 +165,46 @@ void remFil() {
     }
 }
 
+void priceCalc() {
+    int choice = 0;
+    double slicePrice = 0.0; //in $
+    double sliceLength = 0.0; //in meters
+    double spoolLength = 0.0; //in meters
+    double finalPrice = 0.0; //in $
+
+    //math variables for calculation
+    double crossSec = 0.024; //in cm^2
+    double vol = 0.0;
+
+    viewFil();
+    std::cout << "Select filament to use (number): ";
+    std::cin >> choice;
+
+    choice = choice - 1;
+    spoolType = fil[choice].type;
+    spoolColor = fil[choice].color;
+    spoolWeight = fil[choice].weight;
+
+    std::cout << "Enter slicer price: ";
+    std::cin >> slicePrice;
+    std::cout << "Enter slicer length: ";
+    std::cin >> sliceLength;
+
+    if (spoolType == "pla") {
+        vol = (spoolWeight * 1000) / pla;
+    } else if (spoolType == "abs") {
+        vol = (spoolWeight * 1000) / abS;
+    } else if (spoolType == "petg") {
+        vol = (spoolWeight * 1000) / petg;
+    }
+
+    spoolLength = (vol / crossSec) / 100;
+    std::cout << spoolLength << std::endl;
+    
+    std::cin.ignore(INT_MAX, '\n');
+    std::cin.get();
+}
+
 int main() {
     //Housekeeping (variables, etc)
     int choice = 0;
@@ -201,8 +241,7 @@ int main() {
             remFil();
             break;
         case 4:
-            
-
+            priceCalc();
             break;
         case 0:
             configSave();
