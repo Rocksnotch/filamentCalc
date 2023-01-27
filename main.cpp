@@ -60,6 +60,11 @@ void configSave() {
         wFile << fil[i].weight << std::endl;
     }
     wFile.close();
+
+    std::cout << "Config saved!\nPress 'Enter' to continue";
+    std::cin.ignore(INT_MAX, '\n');
+    std::cin.get();
+
 }
 
 void configLoad() {
@@ -101,6 +106,7 @@ void configCheck() {
         cFile.close();
         wFile.close();
         std::cout << "Done!\nPress 'Enter' to continue";
+        std::cin.ignore(INT_MAX, '\n');
         std::cin.get();
     }
 }
@@ -125,31 +131,68 @@ void addFil() {
     configSave();
 }
 
+void viewFil() {
+    header();
+
+    for (int k = 0; k < fil.size(); k++) {
+    std::cout << "--Filament " << k + 1 << "--" << std::endl;
+    std::cout << "Brand: " << fil[k].brand << std::endl;
+    std::cout << "Filament Type: " << fil[k].type << std::endl;
+    std::cout << "Spool Cost: $" << fil[k].cost << std::endl;
+    std::cout << "Spool weight: " << fil[k].weight << " kg" << std::endl << std::endl; 
+    }
+
+    std::cout << "Press 'Enter' to continue";
+    std::cin.ignore(INT_MAX, '\n');
+    std::cin.get();
+}
+
 int main() {
     //Housekeeping (variables, etc)
-    int choice = 999;
+    int choice = 0;
+    int temp = 0;
 
     //Start of program
     header();
     configCheck();
-    while (choice != 0) {
+    while (choice != -1) {
     header();
     std::cout << "---MAIN MENU---" << std::endl;
     std::cout << "1) View filaments on file" << std::endl;
     std::cout << "2) Add filament to file" << std::endl;
     std::cout << "3) Price calculator" << std::endl;
+    std::cout << "4) Remove filament" << std::endl;
     std::cout << "0) Exit Program" << std::endl << std::endl;
     std::cout << "Enter Choice Number: ";
     std::cin >> choice;
 
+    if (std::cin.fail()) { //catch if user enters another other than an int
+        std::cin.clear();
+        std::cout << "Please only enter numbers, not other characters!\nPress 'Enter' to continue";
+            std::cin.ignore(INT_MAX, '\n');
+            std::cin.get();
+    } else {
+
     switch (choice) {
         case 1:
-        
+            viewFil();
             break;
         case 2:
-        addFil();
+            addFil();
             break;
         case 3:
+
+            break;
+        case 4:
+            viewFil();
+            std::cout << "Enter filament to remove (number): ";
+            std::cin >> temp;
+            if (temp == 1) {
+                fil.erase(fil.begin());
+            } else {
+
+            fil.erase(fil.begin() + (temp - 1));
+            }
 
             break;
         case 0:
@@ -157,9 +200,11 @@ int main() {
             break;
         default:
             std::cout << "Choice not found, try again!\nPress 'Enter' to continue";
+            std::cin.ignore(INT_MAX, '\n');
             std::cin.get();
+            break;
     }
-
+    }
     }
 
     return 0;
