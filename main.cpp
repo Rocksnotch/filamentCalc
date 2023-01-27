@@ -7,6 +7,7 @@
 // Unloaded variables
 std::string spoolBrand = "";
 std::string spoolType = "";
+std::string spoolColor = "";
 double spoolCost = 0.0;
 double spoolWeight = 0;
 std::string temp;
@@ -36,6 +37,7 @@ struct filament {
         
         std::string brand;
         std::string type;
+        std::string color;
         double cost;    
         double weight;
 
@@ -56,6 +58,7 @@ void configSave() {
     for (int i = 0; i < fil.size(); i++) {
         wFile << fil[i].brand << std::endl;
         wFile << fil[i].type << std::endl;
+        wFile << fil[i].color << std::endl;
         wFile << fil[i].cost << std:: endl;
         wFile << fil[i].weight << std::endl;
     }
@@ -79,6 +82,7 @@ void configLoad() {
     while (vecSize != 0) {
         rFile >> hold.brand;
         rFile >> hold.type;
+        rFile >> hold.color;
         rFile >> hold.cost;
         rFile >> hold.weight;
 
@@ -106,7 +110,6 @@ void configCheck() {
         cFile.close();
         wFile.close();
         std::cout << "Done!\nPress 'Enter' to continue";
-        std::cin.ignore(INT_MAX, '\n');
         std::cin.get();
     }
 }
@@ -117,13 +120,16 @@ void addFil() {
     std::cin >> spoolBrand;
     std::cout << "Enter spool type (pla, abs, etc): ";
     std::cin >> spoolType;
+    std::cout << "Enter spool color (one word): ";
+    std::cin >> spoolColor;
     std::cout << "Enter spool cost (dollars w/o symbol): ";
     std::cin >> spoolCost;
     std::cout << "Enter spool weight (kg): ";
     std::cin >> spoolWeight;
 
-    hold.brand = spoolBrand;
+    hold.brand =spoolBrand;
     hold.type = spoolType;
+    hold.color = spoolColor;
     hold.cost = spoolCost;
     hold.weight = spoolWeight;
 
@@ -137,6 +143,7 @@ void viewFil() {
     std::cout << "--Filament " << k + 1 << "--" << std::endl;
     std::cout << "Brand: " << fil[k].brand << std::endl;
     std::cout << "Filament Type: " << fil[k].type << std::endl;
+    std::cout << "Filament Color: " << fil[k].color << std::endl;
     std::cout << "Spool Cost: $" << fil[k].cost << std::endl;
     std::cout << "Spool weight: " << fil[k].weight << " kg" << std::endl << std::endl; 
     }
