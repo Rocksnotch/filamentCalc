@@ -128,7 +128,6 @@ void addFil() {
     hold.weight = spoolWeight;
 
     fil.push_back(hold);
-    configSave();
 }
 
 void viewFil() {
@@ -147,10 +146,21 @@ void viewFil() {
     std::cin.get();
 }
 
+void remFil() {
+    viewFil();
+    int temp = 0;
+    std::cout << "Enter filament to remove (number): ";
+    std::cin >> temp;
+    if (temp == 1) {
+        fil.erase(fil.begin());
+    } else {
+        fil.erase(fil.begin() + (temp - 1));
+    }
+}
+
 int main() {
     //Housekeeping (variables, etc)
     int choice = 0;
-    int temp = 0;
 
     //Start of program
     header();
@@ -160,8 +170,8 @@ int main() {
     std::cout << "---MAIN MENU---" << std::endl;
     std::cout << "1) View filaments on file" << std::endl;
     std::cout << "2) Add filament to file" << std::endl;
-    std::cout << "3) Price calculator" << std::endl;
-    std::cout << "4) Remove filament" << std::endl;
+    std::cout << "3) Remove fimament" << std::endl;
+    std::cout << "4) Price calculator" << std::endl;
     std::cout << "0) Exit Program" << std::endl << std::endl;
     std::cout << "Enter Choice Number: ";
     std::cin >> choice;
@@ -181,21 +191,16 @@ int main() {
             addFil();
             break;
         case 3:
-
+            remFil();
             break;
         case 4:
-            viewFil();
-            std::cout << "Enter filament to remove (number): ";
-            std::cin >> temp;
-            if (temp == 1) {
-                fil.erase(fil.begin());
-            } else {
-
-            fil.erase(fil.begin() + (temp - 1));
-            }
+            
 
             break;
         case 0:
+            configSave();
+            std::cout << "Saved and exiting." << std::endl;
+
             return 0;
             break;
         default:
